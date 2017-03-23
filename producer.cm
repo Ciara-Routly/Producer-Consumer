@@ -1,0 +1,65 @@
+int buffer[5];
+int i, j, w;
+
+// init semaphores
+semaphore full;
+semaphore mutex;
+semaphore empty;
+
+// producer function
+void Producer(){
+int y = 0;
+int k = 0;
+// loop to run 20 
+for(i=1;i<21;i++){
+y++;
+// output
+cout << "Item" << i << " produced " << endl;
+p(full);
+p(mutex);
+buffer[k] = y;
+k++;
+if(k == 5) k = 0;
+v(mutex);
+v(empty);
+}
+}
+
+// consumer function
+void Consumer(){
+int a = 0;
+int x = 0;
+// loop to run 20
+for(j=1;j<21;j++){
+// consumer delay loop
+x++;
+p(empty);
+p(mutex);
+buffer[a] = x;
+a++;
+if(a == 5) a = 0; 
+v(mutex);
+v(full);
+// output
+cout << "Item" << j << " consumed " << endl;
+
+}
+}
+
+main(){
+
+// init sem
+initialsem(full, 5);
+initialsem(mutex, 1);
+initialsem(empty, 0);
+
+// synchron process
+cobegin {
+
+Producer();
+Consumer();
+
+}
+
+}
+
